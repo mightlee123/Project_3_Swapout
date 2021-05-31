@@ -16,6 +16,13 @@ contract Escrow {
     address public buyer;
     address payable public seller;
     
+    struct TransactionStruct
+        {                        
+            
+        address buyer; 
+        uint buyer_nounce;                          
+        }
+    
     // MODIFIERS 
     modifier onlyBuyer() {
         require(msg.sender == buyer, "Only the buyer can call this function");
@@ -32,7 +39,7 @@ contract Escrow {
     constructor(address _buyer, address payable _seller, uint _price){
         buyer = _buyer;
         seller = _seller;
-        price = _price *;
+        price = _price * (1 ether);
     }
     
     function initContract() escrowNotStarted public {
@@ -52,7 +59,7 @@ contract Escrow {
     function deposit() onlyBuyer public payable {
         require(currState == State.AWATING_PAYMENT, "Already paid");
         require(msg.value == price, "Wrong deposit amount");
-        currState = State.AWATING_PAYMENT;
+        currState = State.AWATING_DELIVERY;
     }
         
     function confirmDelivery() onlyBuyer payable public {
@@ -67,4 +74,9 @@ contract Escrow {
         currState = State.COMPLETE;
     }
 
+
+    function safeTransferFrom(address from, address to, uint256 tokenId) public {
+        safeTransferFrom(from, to, tokenId);
+    }
+    
 }    
