@@ -54,35 +54,76 @@ elif choice == 'About':
 
 left_column, right_column = st.beta_columns(2)
 if left_column.button('New User'):
-    input_data = st.text_input("Create User ID")    
-    input_data = st.text_input("Enter personal number")
-    input_data = st.text_input("Confirm personal number")     
-    left_column.button("Sign Up!")
+    # input_data = st.text_input("Create User ID")    
+    # input_data = st.text_input("Enter personal number")
+    # input_data = st.text_input("Confirm personal number")     
+    # left_column.button("Sign Up!")
+    header = st.beta_container()
+    personal_info = st.beta_container()
+    vehicle_info = st.beta_container()
+
+    prev, _ ,next = st.beta_columns([1, 8, 1])
+
+    next.button("Next")
+
+    prev.button("Previous")
+
+    with header:
+        st.write("## Let's create your SWAPOUT Account!")
+    
+    with personal_info:
+        st.write("Personal Information")
+
+        first, last = st.beta_columns(2)
+    
+        first.text_input("First Name")
+        last.text_input("Last Name")
+
+        st.text_input("Email Address")
+
+        password, confirmpassword = st.beta_columns(2)
+
+        password.text_input("Password", type="password")
+        confirmpassword.text_input("Confirm Password", type="password")
+
+
+    with vehicle_info:
+        st.write("Vehicle Information")
+
+        year = st.selectbox("What year is your car?", options = range(2021, 1949, -1))
+
+        make = st.selectbox("What make is your vehicle?", options = ["Acura", "Alfa Romeo", "AMC", "Aston Marton", "Audi", "Bentley", "BMW", "Bugatti", "Buick", "Cadillac", "Chevrolet", "Chrysler", "Citroen", "Datsun", "Daewoo", "Delorean", "Dodge", "Eagle", "Ferarri", "FIAT", "Fisker", "Ford", "Freightliner", "Genesis", "Geo", "GMC", "Honda", "HUMMER", "Hyundai", "INFINITI", "Isuzu", "Jaguar", "Jeep", "Karma", "Kia", "Lamborghini", "Land Rover", "Lexus", "Lincoln", "Lotus", "LUCID", "Maserati", "Maybach", "MAZDA", "McLaren", "Mercedes-Benz", "Mercury", "MINI", "Mitsubishi", "NIO", "Nissan", "Oldsmobile", "Opel", "Peugot", "Plymouth", "Pontiac", "Porsche", "RAM", "Renault", "Rolls-Royce", "Saab", "Saturn", "Scion", "Skoda", "smart", "SRT", "Studebaker", "Subaru", "Suzuki", "Tesla", "Toyota", "Vauzhall", "Volkswagen", "Volvo", "Yugo"])
+
+        model = st.text_input("What model is your car?")
+
+        miles = st.text_input("How many miles does your car have?")
+
+        certification = st.radio("Does your car have any aftermarket parts?", ("Yes", "No"))
+
+        # # adding value of the vehicle
+        # value = st.slider(
+        # 'Select a range of values',
+        # 0.0, 100.0, (25.0, 75.0)
+
+        # adding file upoader
+        uploaded_files = st.file_uploader("Upload Images Here", accept_multiple_files=True)
+        for uploaded_file in uploaded_files:
+            bytes_data = uploaded_file.read()
+            st.write("filename:", uploaded_file.name)
+            st.write(bytes_data)
+
 
 if right_column.button('Existing User'):
     input_data = st.text_input("Enter User ID")
     input_data = st.text_input("Enter personal number")
 
-# call Streamlit functions inside a "with" block:
-# with left_column:
-#     chosen = st.radio(
-#         'Categories',
-#         ("Cars", "Watches"))
-#     st.write(f"You are in {chosen} house!")
+# # Add a selectbox to the sidebar:
+# add_selectbox = st.sidebar.selectbox(
+#     'Select car make',
+#     ('Chevrolet', 'Porsche', 'BMW')
+# )
 
-# Add a selectbox to the sidebar:
-add_selectbox = st.sidebar.selectbox(
-    'Select car make',
-    ('Chevrolet', 'Porsche', 'BMW')
-)
-
-add_selectbox = st.sidebar.selectbox(
-    'Select the year',
-    ('1960','1970','1980')
-)
-
-# Add a slider to the sidebar:
-add_slider = st.sidebar.slider(
-    'Select a range of values',
-    0.0, 100.0, (25.0, 75.0)
-)
+# add_selectbox = st.sidebar.selectbox(
+#     'Select the year',
+#     ('1960','1970','1980')
+# )
