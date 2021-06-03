@@ -25,7 +25,6 @@ st.markdown(
 #adding navigator to sidebar(testing)
 import pickle as pkle
 import os.path
-
 # # create a button in the side bar that will move to the next page/radio button choice
 # next = st.sidebar.button('Next on list')
 
@@ -106,11 +105,29 @@ if left_column.button('New User'):
         # 0.0, 100.0, (25.0, 75.0)
 
         # adding file upoader
-        uploaded_files = st.file_uploader("Upload Images Here", accept_multiple_files=True)
-        for uploaded_file in uploaded_files:
-            bytes_data = uploaded_file.read()
-            st.write("filename:", uploaded_file.name)
-            st.write(bytes_data)
+        # uploaded_files = st.file_uploader("Upload Images Here", accept_multiple_files=True)
+        # for uploaded_file in uploaded_files:
+        #     bytes_data = uploaded_file.read()
+        #     st.write("filename:", uploaded_file.name)
+        #     st.write(bytes_data)
+        
+        with open(os.path.join("tempDir",uploadedfile.name),"wb") as f:
+            f.write(uploadedfile.getbuffer())
+
+        image_file = st.file_uploader("Upload An Image",type=['jpg'])
+        if image_file is not None:
+            file_details = {"FileName":image_file.name,"FileType":image_file.type}
+            st.write(file_details)
+            img = load_image(image_file)
+            st.image(img,height=250,width=250)
+            with open(os.path.join("tempDir",image_file.name),"wb") as f: 
+                f.write(image_file.getbuffer())         
+            st.success("Saved File")
+
+        # def save_uploadedfile(uploadedfile):
+        #     with open(os.path.join("tempDir",uploadedfile.name),"wb") as f:
+        #         f.write(uploadedfile.getbuffer())
+        #     return st.success("Saved File:{} to tempDir".format(uploadedfile.name))
 
 
 if right_column.button('Existing User'):
