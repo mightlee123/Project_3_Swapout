@@ -111,18 +111,18 @@ if left_column.button('New User'):
         #     st.write("filename:", uploaded_file.name)
         #     st.write(bytes_data)
         
-        with open(os.path.join("tempDir",uploadedfile.name),"wb") as f:
-            f.write(uploadedfile.getbuffer())
+        # with open(os.path.join("tempDir",uploadedfile.name),"wb") as f:
+        #     f.write(uploadedfile.getbuffer())
 
-        image_file = st.file_uploader("Upload An Image",type=['jpg'])
-        if image_file is not None:
-            file_details = {"FileName":image_file.name,"FileType":image_file.type}
-            st.write(file_details)
-            img = load_image(image_file)
-            st.image(img,height=250,width=250)
-            with open(os.path.join("tempDir",image_file.name),"wb") as f: 
-                f.write(image_file.getbuffer())         
-            st.success("Saved File")
+        # image_file = st.file_uploader("Upload An Image",type=['jpg'])
+        # if image_file is not None:
+        #     file_details = {"FileName":image_file.name,"FileType":image_file.type}
+        #     st.write(file_details)
+        #     img = load_image(image_file)
+        #     st.image(img,height=250,width=250)
+        #     with open(os.path.join("tempDir",image_file.name),"wb") as f: 
+        #         f.write(image_file.getbuffer())         
+        #     st.success("Saved File")
 
         # def save_uploadedfile(uploadedfile):
         #     with open(os.path.join("tempDir",uploadedfile.name),"wb") as f:
