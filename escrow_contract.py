@@ -1,4 +1,4 @@
- import os 
+import os 
 import json
 from eth_account import account
 from eth_typing.evm import Address
@@ -27,12 +27,9 @@ def load_contract():
         generalReg_abi = json.load(f)
 
     contract_address = os.getenv('SMART_CONTRACT_ADDRESS_')
-    
+    print(contract_address)
 
-    contract = w3.eth.contract(
-        address=contract_address,
-        abi=generalReg_abi
-)
+    contract = w3.eth.contract(address=contract_address, abi=generalReg_abi)
     return contract
 
 contract = load_contract()
@@ -68,32 +65,33 @@ import os.path
 # # create a button in the side bar that will move to the next page/radio button choice
 # next = st.sidebar.button('Next on list')
 
-fedback = st.button('Create a Contract with us')
-if fedback == True:
-    _buyer = st.text_input("Enter the buyers eth address")
-    _seller = st.text_input("Enter the sellers eth address")
-    _price = st.text_input("Enter the amount in eth")
+feedback = st.button('Create a Contract with us')
+# if fedback == True:
+_buyer = st.text_input("Enter the buyers eth address")
+_seller = st.text_input("Enter the sellers eth address")
+_price = st.text_input("Enter the amount in eth")
 
-    #escrow_constructor = contract.constructor(_buyer, _seller, _price).call() # in ETH 
+#escrow_constructor = contract.constructor(_buyer, _seller, _price).call() # in ETH 
+print(_buyer, _seller, _price)
 
-    
-    initContract = st.button('Buyer Initiate Contract')
-    #buyer
-    initContract_sell = st.button('Seller Initiate Contract') #seller
-    if initContract & initContract_sell == True:
-        contract_confirm = contract.functions.initContract().call()
 
-    ammount_eth = st.number_input("Comfirm your ETH deposit aomunt")
-    if ammount_eth == True:
-        contract.functions.deposit().transact()
+initContract = st.button('Buyer Initiate Contract')
+#buyer
+initContract_sell = st.button('Seller Initiate Contract') #seller
+if initContract & initContract_sell == True:
+    contract_confirm = contract.functions.initContract().call()
 
-    buyerCofimation = st.button('Confirm delivery of collectable')
-    if buyerCofimation == True:
-        contract.functions.confirmDelivery().transact()
+ammount_eth = st.number_input("Comfirm your ETH deposit aomunt")
+if ammount_eth == True:
+    contract.functions.deposit().transact()
 
-    swapWithdraw = st.button('Withdraw funds and void transaction')
-    if swapWithdraw == True:
-        contract.functions.withdraw().transact()
+buyerCofimation = st.button('Confirm delivery of collectable')
+if buyerCofimation == True:
+    contract.functions.confirmDelivery().transact()
+
+swapWithdraw = st.button('Withdraw funds and void transaction')
+if swapWithdraw == True:
+    contract.functions.withdraw().transact()
 
     
 
@@ -126,4 +124,4 @@ if fedback == True:
 # add_selectbox = st.sidebar.selectbox(
 #     'Select the year',
 #     ('1960','1970','1980')
-# )   
+# )
