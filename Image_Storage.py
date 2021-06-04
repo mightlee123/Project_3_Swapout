@@ -2,6 +2,7 @@ import streamlit as st
 import os
 import pandas as pd 
 from PIL import Image
+
 @st.cache
 def load_image (image_file):
     img = Image.open(image_file)
@@ -9,7 +10,7 @@ def load_image (image_file):
 
 def main():
     st.title ("File Uploads & Saved File to Directory App")
-    menu = ["Home", "Dataset", "About"]
+    menu = ["Home"]
     choice = st.sidebar.selectbox("Menu", menu)
 
     if choice == "Home":
@@ -21,7 +22,10 @@ def main():
             img = load_image(image_file)
             st.image(img)
             
-            with open(image_file.name, "wb") as f:
+            save_path = '/Users/ayechan/Desktop/Project_3_Swapout/jpg'
+            file_name = image_file.name
+            completeName = os.path.join(save_path, file_name)
+            with open(completeName, "wb") as f:
                 f.write(image_file.getbuffer())
             st.success("File Saved")
 

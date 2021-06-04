@@ -3,8 +3,18 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
-st.title("Welcome to Swapout!")
 
+st.title("Welcome to Swapout!")
+# # adding logo
+# title_container = st.beta_container()
+# col1, col2 = st.beta_columns([1, 20])
+# image = Image.open('/Users/ayechan/Desktop/Project_3_Swapout/jpg/car.jpg')
+# with title_container:
+#     with col1:
+#         st.image(image, width=64)
+#     with col2:
+#         st.markdown('<h1 style="color: purple;">Suzieq</h1>',
+#                     unsafe_allow_html=True)
 st.markdown("## Your customized virtual market place")
 
 #background picture
@@ -85,7 +95,6 @@ if left_column.button('New User'):
         password.text_input("Password", type="password")
         confirmpassword.text_input("Confirm Password", type="password")
 
-
     with vehicle_info:
         st.write("Vehicle Information")
 
@@ -104,43 +113,7 @@ if left_column.button('New User'):
         # 'Select a range of values',
         # 0.0, 100.0, (25.0, 75.0)
 
-        # adding file upoader
-        # uploaded_files = st.file_uploader("Upload Images Here", accept_multiple_files=True)
-        # for uploaded_file in uploaded_files:
-        #     bytes_data = uploaded_file.read()
-        #     st.write("filename:", uploaded_file.name)
-        #     st.write(bytes_data)
-        
-        # with open(os.path.join("tempDir",uploadedfile.name),"wb") as f:
-        #     f.write(uploadedfile.getbuffer())
-
-        # image_file = st.file_uploader("Upload An Image",type=['jpg'])
-        # if image_file is not None:
-        #     file_details = {"FileName":image_file.name,"FileType":image_file.type}
-        #     st.write(file_details)
-        #     img = load_image(image_file)
-        #     st.image(img,height=250,width=250)
-        #     with open(os.path.join("tempDir",image_file.name),"wb") as f: 
-        #         f.write(image_file.getbuffer())         
-        #     st.success("Saved File")
-
-        # def save_uploadedfile(uploadedfile):
-        #     with open(os.path.join("tempDir",uploadedfile.name),"wb") as f:
-        #         f.write(uploadedfile.getbuffer())
-        #     return st.success("Saved File:{} to tempDir".format(uploadedfile.name))
-
-
 if right_column.button('Existing User'):
     input_data = st.text_input("Enter User ID")
     input_data = st.text_input("Enter personal number")
 
-# # Add a selectbox to the sidebar:
-# add_selectbox = st.sidebar.selectbox(
-#     'Select car make',
-#     ('Chevrolet', 'Porsche', 'BMW')
-# )
-
-# add_selectbox = st.sidebar.selectbox(
-#     'Select the year',
-#     ('1960','1970','1980')
-# )
