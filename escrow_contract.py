@@ -1,4 +1,4 @@
-import os 
+ import os 
 import json
 from eth_account import account
 from eth_typing.evm import Address
@@ -83,8 +83,22 @@ if fedback == True:
     if initContract & initContract_sell == True:
         contract_confirm = contract.functions.initContract().call()
 
-    ammount_eth = st.number_input(f"Comfirm your ETH deposit aomunt")
-    escrow_deposit = contract.functions.deposit().transact()
+    ammount_eth = st.number_input("Comfirm your ETH deposit aomunt")
+    if ammount_eth == True:
+        contract.functions.deposit().transact()
+
+    buyerCofimation = st.button('Confirm delivery of collectable')
+    if buyerCofimation == True:
+        contract.functions.confirmDelivery().transact()
+
+    swapWithdraw = st.button('Withdraw funds and void transaction')
+    if swapWithdraw == True:
+        contract.functions.withdraw().transact()
+
+    
+
+
+
 
 
     ## find a way to extract ammount of have them allow us to handle transaction 
@@ -112,4 +126,4 @@ if fedback == True:
 # add_selectbox = st.sidebar.selectbox(
 #     'Select the year',
 #     ('1960','1970','1980')
-# )
+# )   
