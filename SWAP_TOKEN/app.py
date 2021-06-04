@@ -5,30 +5,37 @@ from eth_typing.evm import Address
 from web3 import Web3
 from pathlib import Path
 from dotenv import load_dotenv
-import streamlit as st
-import streamlit as st
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
+#Import the Web3 library
+from web3 import Web3
+import streamlit as st
+from bip44 import Wallet
+from web3 import Account
 
 load_dotenv()
+mnemonic = os.getenv("MNEMONIC")
+
 
 w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER_URI")))
 
-@st.cache(allow_output_mutation=True)
+st.cache(allow_output_mutation=True)
 def load_contract():
-    with open(Path('./contracts/compiled/escrow_abi.json')) as f:
-        artwork_abi = json.load(f)
+    with open(Path('./contracts/compiled/generalReg_abi.json')) as f:
+        generalReg_abi = json.load(f)
 
     contract_address = os.getenv('SMART_CONTRACT_ADDRESS')
 
     contract = w3.eth.contract(
         address=contract_address,
-        abi=artwork_abi
+        abi=generalReg_abi
 )
     return contract
 
 contract = load_contract()
+
+
 
 st.title("Welcome to Swapout!")
 
@@ -80,64 +87,94 @@ elif choice == 'About':
     st.write('About page')
 
 left_column, right_column = st.beta_columns(2)
-if left_column.button('New User'):
+left_column.button('New User')
     # input_data = st.text_input("Create User ID")    
     # input_data = st.text_input("Enter personal number")
     # input_data = st.text_input("Confirm personal number")     
     # left_column.button("Sign Up!")
-    header = st.beta_container()
-    personal_info = st.beta_container()
-    vehicle_info = st.beta_container()
+header = st.beta_container()
+personal_info = st.beta_container()
+vehicle_info = st.beta_container()
 
-    prev, _ ,next = st.beta_columns([1, 8, 1])
+prev, _ ,next = st.beta_columns([1, 8, 1])
 
-    next.button("Next")
+next.button("Next")
 
-    prev.button("Previous")
+prev.button("Previous")
 
-    with header:
-        st.write("## Let's create your SWAPOUT Account!")
+with header:
+    st.write("## Let's create your SWAPOUT Account!")
     
-    with personal_info:
-        st.write("Personal Information")
+with personal_info:
+    st.write("Personal Information")
 
-        first, last = st.beta_columns(2)
+    first, last = st.beta_columns(2)
     
-        first.text_input("First Name")
-        last.text_input("Last Name")
+    first.text_input("First Name")
+    last.text_input("Last Name")
 
-        st.text_input("Email Address")
+    st.text_input("Email Address")
 
-        password, confirmpassword = st.beta_columns(2)
+    password, confirmpassword = st.beta_columns(2)
 
-        password.text_input("Password", type="password")
-        confirmpassword.text_input("Confirm Password", type="password")
+    password.text_input("Password", type="password")
+    confirmpassword.text_input("Confirm Password", type="password")
 
+    
+    st.write("Vehicle Information")
 
-    with vehicle_info:
-        st.write("Vehicle Information")
+    year = st.selectbox("What year is your car?", options = range(2021, 1949, -1))
+         
+    make = st.selectbox("What make is your vehicle?", options = ["Acura", "Alfa Romeo", "AMC", "Aston Marton", "Audi", "Bentley", "BMW", "Bugatti", "Buick", "Cadillac", "Chevrolet", "Chrysler", "Citroen", "Datsun", "Daewoo", "Delorean", "Dodge", "Eagle", "Ferarri", "FIAT", "Fisker", "Ford", "Freightliner", "Genesis", "Geo", "GMC", "Honda", "HUMMER", "Hyundai", "INFINITI", "Isuzu", "Jaguar", "Jeep", "Karma", "Kia", "Lamborghini", "Land Rover", "Lexus", "Lincoln", "Lotus", "LUCID", "Maserati", "Maybach", "MAZDA", "McLaren", "Mercedes-Benz", "Mercury", "MINI", "Mitsubishi", "NIO", "Nissan", "Oldsmobile", "Opel", "Peugot", "Plymouth", "Pontiac", "Porsche", "RAM", "Renault", "Rolls-Royce", "Saab", "Saturn", "Scion", "Skoda", "smart", "SRT", "Studebaker", "Subaru", "Suzuki", "Tesla", "Toyota", "Vauzhall", "Volkswagen", "Volvo", "Yugo"])
 
-        year = st.selectbox("What year is your car?", options = range(2021, 1949, -1))
+    model = st.text_input("What model is your car?")
 
-        make = st.selectbox("What make is your vehicle?", options = ["Acura", "Alfa Romeo", "AMC", "Aston Marton", "Audi", "Bentley", "BMW", "Bugatti", "Buick", "Cadillac", "Chevrolet", "Chrysler", "Citroen", "Datsun", "Daewoo", "Delorean", "Dodge", "Eagle", "Ferarri", "FIAT", "Fisker", "Ford", "Freightliner", "Genesis", "Geo", "GMC", "Honda", "HUMMER", "Hyundai", "INFINITI", "Isuzu", "Jaguar", "Jeep", "Karma", "Kia", "Lamborghini", "Land Rover", "Lexus", "Lincoln", "Lotus", "LUCID", "Maserati", "Maybach", "MAZDA", "McLaren", "Mercedes-Benz", "Mercury", "MINI", "Mitsubishi", "NIO", "Nissan", "Oldsmobile", "Opel", "Peugot", "Plymouth", "Pontiac", "Porsche", "RAM", "Renault", "Rolls-Royce", "Saab", "Saturn", "Scion", "Skoda", "smart", "SRT", "Studebaker", "Subaru", "Suzuki", "Tesla", "Toyota", "Vauzhall", "Volkswagen", "Volvo", "Yugo"])
+    miles = st.text_input("How many miles does your car have?")
 
-        model = st.text_input("What model is your car?")
+    certification = st.radio("Does your car have any aftermarket parts?", ("Yes", "No"))
+        
+    price =  st.text_input("In USD name your price?")
 
-        miles = st.text_input("How many miles does your car have?")
+    #date = datetime.date.today()
 
-        certification = st.radio("Does your car have any aftermarket parts?", ("Yes", "No"))
+    tokenURI = (f"{year,model,certification,make,miles}")
 
-        # # adding value of the vehicle
+    content = (year, make , model, miles)
+
+           # # adding value of the vehicle
         # value = st.slider(
         # 'Select a range of values',
         # 0.0, 100.0, (25.0, 75.0)
 
         # adding file upoader
-        uploaded_files = st.file_uploader("Upload Images Here", accept_multiple_files=True)
-        for uploaded_file in uploaded_files:
+    uploaded_files = st.file_uploader("Upload Images Here", accept_multiple_files=True)
+    for uploaded_file in uploaded_files:
             bytes_data = uploaded_file.read()
             st.write("filename:", uploaded_file.name)
             st.write(bytes_data)
+
+            st.button('Finalize Registration')
+            
+            while mnemonic is None:
+                mnemo = mnemonic('english')
+            mnemonic = mnemo.generate(strength=128)        
+
+            st.write(mnemonic)
+
+            wallet = Wallet(mnemonic)
+            st.write(wallet) 
+
+            private, public = wallet.derive_account('eth')
+
+            st.write(private, public)
+
+            account = Account.privateKeyToAccount(private)
+
+            owner = st.write(account.address)
+
+
+            itm_hash = contract.functions.registerItem(owner, content, price, tokenURI)
+
 
 
 if right_column.button('Existing User'):
