@@ -2,20 +2,22 @@ import streamlit as st
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
+from PIL import Image
 
 
-st.title("Welcome to Swapout!")
-# # adding logo
-# title_container = st.beta_container()
-# col1, col2 = st.beta_columns([1, 20])
-# image = Image.open('/Users/ayechan/Desktop/Project_3_Swapout/jpg/car.jpg')
-# with title_container:
-#     with col1:
-#         st.image(image, width=64)
-#     with col2:
-#         st.markdown('<h1 style="color: purple;">Suzieq</h1>',
-#                     unsafe_allow_html=True)
-st.markdown("## Your customized virtual market place")
+# st.title("Welcome to Swapout!")
+# adding logo next to title 
+title_container = st.beta_container()
+col1, col2 = st.beta_columns([5, 25])
+image = Image.open('/Users/ayechan/Desktop/car.png')
+with title_container:
+    with col1:
+        st.image(image, width=110)
+    with col2:
+        st.markdown('<h1 style="color: purple;">Welcome to Swapout!</h1>',
+                    unsafe_allow_html=True)
+# adding subtitile 
+st.markdown(f'<p style="color:#c70229;font-size:24px;border-radius:8%;">Your customized virtual market place</p>', unsafe_allow_html=True)
 
 #background picture
 st.markdown(
@@ -38,28 +40,28 @@ import os.path
 # # create a button in the side bar that will move to the next page/radio button choice
 # next = st.sidebar.button('Next on list')
 
-new_choice = ['Home','Gallery','About']
-if os.path.isfile('next.p'):
-    next_clicked = pkle.load(open('next.p', 'rb'))
-    if next_clicked == len(new_choice):
-        next_clicked = 0 
-else:
-    next_clicked = 0 #the start
+# new_choice = ['Home','Gallery','About']
+# if os.path.isfile('next.p'):
+#     next_clicked = pkle.load(open('next.p', 'rb'))
+#     if next_clicked == len(new_choice):
+#         next_clicked = 0 
+# else:
+#     next_clicked = 0 #the start
 
-if next:
-    next_clicked = next_clicked +1
-    if next_clicked == len(new_choice):
-        next_clicked = 0 # go back to the beginning i.e. homepage
+# if next:
+#     next_clicked = next_clicked +1
+#     if next_clicked == len(new_choice):
+#         next_clicked = 0 # go back to the beginning i.e. homepage
 
-choice = st.sidebar.radio("go to",('Home', 'Gallery', 'About'), index=next_clicked)
-pkle.dump(new_choice.index(choice), open('next.p', 'wb'))
+# choice = st.sidebar.radio("go to",('Home', 'Gallery', 'About'), index=next_clicked)
+# pkle.dump(new_choice.index(choice), open('next.p', 'wb'))
 
-if choice == 'Home':
-    st.write('this is home')
-elif choice == 'Gallery':
-    st.write('A Gallery of some sort')
-elif choice == 'About':
-    st.write('About page')
+# if choice == 'Home':
+#     st.write('this is home')
+# elif choice == 'Gallery':
+#     st.write('A Gallery of some sort')
+# elif choice == 'About':
+#     st.write('About page')
 
 left_column, right_column = st.beta_columns(2)
 if left_column.button('New User'):
@@ -90,11 +92,13 @@ if left_column.button('New User'):
 
         st.text_input("Email Address")
 
+        st.text_input("Create an User ID")
+
         password, confirmpassword = st.beta_columns(2)
 
         password.text_input("Password", type="password")
         confirmpassword.text_input("Confirm Password", type="password")
-
+        
     with vehicle_info:
         st.write("Vehicle Information")
 
