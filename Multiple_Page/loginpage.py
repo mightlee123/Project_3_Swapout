@@ -3,6 +3,7 @@ import streamlit as st
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
+import webbrowser
 
 
 
@@ -24,7 +25,8 @@ st.write("## Please enter your SWAPOUT Account Information")
 
 
 input_data = st.text_input("User ID")
-input_data = st.text_input("Password")
+input_data = st.text_input("Password", type="password")
 
-st.button('Log In') #== True:
-   # webbrowser.open_new_tab('http://localhost:8085/')
+# Clicking Finalize Registration will take them to the Dashboard page
+if st.button('Log In') == True:
+    webbrowser.open_new_tab("http://localhost:8502/")

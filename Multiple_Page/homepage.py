@@ -35,3 +35,4 @@ if left_column.button('Sign Up') == True:
 
 if right_column.button('Log In') == True:
     webbrowser.open_new_tab('http://localhost:8085/')
+
