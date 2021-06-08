@@ -1,44 +1,32 @@
-# change shipping to delivery 
-import os
-from email.mime.text import MIMEText
 import smtplib
-from save_jpg_base64 import image_base64
+import imghdr
 from email.message import EmailMessage
 from datetime import datetime, timedelta
+# change shipping to delivery 
 
-#dates
 dt = datetime.now()
 prep_days = timedelta(days=7)
 shipping_days = timedelta(days=14)
 ship_out_date = dt + prep_days
 arrival_date= dt + shipping_days
 
-#swapout email account
-swapout_email_address = os.environ.get("email_username")
-swapout_email_password = os.environ.get("email_password")
 #testing accounts
-offeror={"name":"Customer_A" , "item":"Honda"}
-receiver={"name":"Might Lee", "email": "mightlee123@gmail.com" , "item":"Toyota"}
+swapout={"name":"swapout","email":"swapoutgoods@gmail.com"}
+offeror={"name":"Customer_A","email":"12345678@gmail.com"}
+receiver={"name":"Might Lee", "email": "mightlee123@gmail.com"}
+
+
+
 
 #make offer
-def email_offer(swapout_email_address, swapout_email_password, offeror, receiver):
-    msg=EmailMessage()
-    msg["Subject"] = "You Have an Offer!"
-    msg["From"] = swapout_email_address
-    msg["To"] = receiver["email"]
-
-    #email content
-    msg.set_content= (f"{offeror['name']} is wanting to trade your {receiver['item']} with a {offeror['item']}. Please accept the offer within 24 hours.")
-    #html image
-    msg.attach(MIMEText(f'<html><body><p><img src="data:image.jpg;base64,{image_base64}><p><body><html>, "html","utf-8"'))
-
-    with smtplib.SMTP_SSL("smtp.gmail.com" , 465) as smtp:
-        smtp.login(swapout_email_address , swapout_email_password)
-        smtp.send_message(msg)
-        smtp.quit()
-
-email_offer
-
+def email_offer(swapout,offeror, receiver):
+    emsg=EmailMessage()
+    emsg["Subject"] = f"Here is an trading offer from {offeror["name"]}."
+    emsg["From"] = swapout["email"]
+    emsg["To"] = receiver["email"]
+    s= smtplib.SMTP("localhost")
+    s.send_message(emsg)
+    s.quit()
 
 #offer denied
 #def email_rejection(swapout, offeror, receiver):
