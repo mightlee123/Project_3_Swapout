@@ -9,15 +9,15 @@ from PIL import Image
 # adding logo next to title 
 title_container = st.beta_container()
 col1, col2 = st.beta_columns([5, 25])
-image = Image.open('/Users/ayechan/Desktop/car.png')
+image = Image.open('/Users/ayechan/Downloads/Screen_Shot.png')
 with title_container:
     with col1:
-        st.image(image, width=110)
+        st.image(image, width=125)
     with col2:
         st.markdown('<h1 style="color: purple;">Welcome to Swapout!</h1>',
                     unsafe_allow_html=True)
 # adding subtitile 
-st.markdown(f'<p style="color:#c70229;font-size:24px;border-radius:8%;">Your customized virtual market place</p>', unsafe_allow_html=True)
+st.markdown(f'<p style="color:white;font-size:24px;border-radius:8%;">Your customized virtual market place</p>', unsafe_allow_html=True)
 
 #background picture
 st.markdown(

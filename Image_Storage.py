@@ -26,7 +26,7 @@ def main():
             st.image(img)
             
             save_path = '/Users/ayechan/Desktop/Project_3_Swapout/jpg'
-            file_name = image_file.name
+            file_name = "image_file"
             #new_file_name = user_name
             completeName = os.path.join(save_path, file_name)
             with open(completeName, "wb") as f:
@@ -39,3 +39,8 @@ if __name__ == '__main__':
 	main()
 
 
+# save_path = '/home'
+# file_name = "test.txt"
+
+# completeName = os.path.join(save_path, file_name)
+# print(completeName)
