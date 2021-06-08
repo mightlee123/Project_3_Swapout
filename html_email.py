@@ -10,4 +10,4 @@
     <div><b>Hello</b> Might,</div>
     We offer to this and that and you will be the next billionir
     <hr>
-    <img 
+    <img>
