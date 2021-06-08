@@ -9,7 +9,7 @@ from PIL import Image
 # adding logo next to title 
 title_container = st.beta_container()
 col1, col2 = st.beta_columns([5, 25])
-image = Image.open('/Users/ayechan/Downloads/Screen_Shot.png')
+image = Image.open('/Users/ayechan/Desktop/Project_3_Swapout/Logo/Logo2.png')
 with title_container:
     with col1:
         st.image(image, width=125)
