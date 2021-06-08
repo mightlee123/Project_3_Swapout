@@ -3,7 +3,7 @@ import os
 from email.mime.text import MIMEText
 import smtplib
 import imghdr
-from save_jpg_base64 import jpg_to_64base
+from save_jpg_base64 import image_base64
 from email.message import EmailMessage
 from datetime import datetime, timedelta
 # change shipping to delivery 
@@ -24,7 +24,6 @@ receiver={"name":"Might Lee", "email": "mightlee123@gmail.com" , "item":"Toyota"
 
 #make offer
 def email_offer(swapout_email_address, swapout_email_password, offeror, receiver):
-    jpg_to_64base()
     msg=EmailMessage()
     msg["Subject"] = "You Have an Offer!"
     msg["From"] = swapout_email_address
@@ -33,14 +32,14 @@ def email_offer(swapout_email_address, swapout_email_password, offeror, receiver
     #email content
     msg.set_content= (f"{offeror['name']} is wanting to trade your {receiver['item']} with a {offeror['item']}. Please accept the offer within 24 hours.")
     #html image
-    #msg.attach(MIMEText(f'<html><body><p><img src="data:image.jpg;base64,{image}><p><body><html>, "html","utf-8"'))
+    msg.attach(MIMEText(f'<html><body><p><img src="data:image.jpg;base64,{image_base64}><p><body><html>, "html","utf-8"'))
 
     with smtplib.SMTP_SSL("smtp.gmail.com" , 465) as smtp:
         smtp.login(swapout_email_address , swapout_email_password)
         smtp.send_message(msg)
         smtp.quit()
 
-email_offer(swapout_email_address, swapout_email_password, offeror, receiver)
+email_offer
 #offer denied
 #def email_rejection(swapout, offeror, receiver):
 #    emsg=EmailMessage()
