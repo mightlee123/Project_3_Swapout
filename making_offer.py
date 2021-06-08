@@ -2,7 +2,6 @@
 import os
 from email.mime.text import MIMEText
 import smtplib
-import imghdr
 from save_jpg_base64 import jpg_to_64base
 from email.message import EmailMessage
 from datetime import datetime, timedelta
