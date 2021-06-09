@@ -184,6 +184,7 @@ if next.button("Finalize Registration") == True:
     save_image(account_address)
 
 
+
     # Clicking Finalize Registration will take them to the Dashboard page
     webbrowser.open_new_tab("http://localhost:8502/")
 
