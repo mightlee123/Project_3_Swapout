@@ -5,6 +5,7 @@ from typing import Any
 import webbrowser
 import pandas as pd
 from path import Path
+from PIL import Image
 
 #background picture
 st.markdown(
@@ -22,15 +23,26 @@ st.markdown(
 )
 
 st.title("Welcome to your SWAPOUT Account!")
+    
 
 navigation = st.sidebar.selectbox("Dashboard", ("The Swap Meet", "Account Information", "Transactions"))
 
-df = pd.read_csv("./user_enteries_df.csv")
+df_general_info = pd.read_csv("./general_info_df.csv")
+df_private_info = pd.read_csv("./private_info_df.csv")
 
-# The Swap Meet Page within the Dashboard. Also the landing page after Registration & Log In.
+
+# Swap Meet Page within the Dashboard
 if navigation == "The Swap Meet":
-    st.header("Listings")
+    st.header("Available Cars")
 
+    image = Image.open('./Images/540i.JPG')
+    image2 = Image.open('./Images/MR2.jpg')
+
+    st.image(image, caption = "2003 BMW 540i")
+    st.button("Make Offer")
+
+    st.image(image2, caption = "1986 Toyota MR2")
+    #st.button("Make Offer")
 
 # Account Information Page within the Dashboard
 if navigation == "Account Information":
@@ -39,14 +51,14 @@ if navigation == "Account Information":
     st.header("Personal Information")
 
     
-    first, last = st.beta_columns(2)
+    #first, last = st.beta_columns(2)
 
-    first_name = first.text_input("First Name")
-    last_name = last.text_input("Last Name")
+    first = st.write('First Name:', df_general_info["First Name"])
+    last = st.write('Last Name:', df_general_info["Last Name"])
 
-    email_address = st.text_input("Email Address")
+    email_address = st.write(df_general_info["Email"])
 
-    mailing_address = st.text_input('Mailing Address')
+    mailing_address = st.write(df_private_info["Physical Address"])
 
 
     # Display Vehicle Information
@@ -70,8 +82,6 @@ if navigation == "Account Information":
     if st.button("Logout") == True:
         webbrowser.open_new_tab('http://localhost:8501/')
 
-
-# Transactions Page within the Dashboard
 if navigation == "Transactions":
     # Display Pending Transactions
     st.header("Pending Transactions")
