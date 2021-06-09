@@ -17,7 +17,7 @@ import webbrowser
 import pandas as pd
 from path import Path
 from PIL import Image
-
+from Image_Storage import save_image
 
 load_dotenv()
 mnemonic = os.getenv("MNEMONIC")
@@ -181,10 +181,11 @@ if next.button("Finalize Registration") == True:
     private_info_df=pd.DataFrame(private_info_list)
     private_info_df.to_csv(Path)
 
-    logged_in_user = account_address
+    save_image(account_address)
+
 
 
     # Clicking Finalize Registration will take them to the Dashboard page
     webbrowser.open_new_tab("http://localhost:8502/")
-    
+
 
