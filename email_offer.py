@@ -54,5 +54,5 @@ def trade_confirmation_2(offeror, receiver):
     subject = "confirm Trade"
     msg = f"You got yourself a deal! Please deliver your vehicle before {ship_out_date}\
          to the following address: {offeror['address']}."
-    email_notification(subject, msg, user_email)
+    email_notification(subject, msg, user_email)  
 
