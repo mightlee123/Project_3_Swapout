@@ -1,4 +1,4 @@
-import os 
+import os, sys
 import json
 from eth_account import account
 from eth_typing.evm import Address
@@ -16,12 +16,8 @@ from web3 import Account
 import webbrowser
 import pandas as pd
 from path import Path
-<<<<<<< Updated upstream
-#from data_to_csv import general_info, private_info
-=======
 from PIL import Image
 from Image_Storage import save_image
->>>>>>> Stashed changes
 
 load_dotenv()
 mnemonic = os.getenv("MNEMONIC")
@@ -92,12 +88,37 @@ with vehicle_info:
     certification = st.radio("Does your car have any aftermarket parts?", ("Yes", "No"))
 
 
-    # adding file upoader
-    uploaded_files = st.file_uploader("Upload Images Here", accept_multiple_files=True)
-    for uploaded_file in uploaded_files:
-        bytes_data = uploaded_file.read()
-        st.write("filename:", uploaded_file.name)
-        st.write(bytes_data)
+    account_address = st.text_input("Enter your Account Address")
+
+
+@st.cache
+def load_image (image_file):
+    img = Image.open(image_file)
+    return img
+def main():
+    # st.title ("File Uploads & Saved File to Directory App")
+    # menu = ["Home"]
+    # choice = st.sidebar.selectbox("Menu", menu)
+    # if choice == "Home":
+        # st.subheader("Upload Image")
+        # user_name =
+        image_file = st.file_uploader("Upload An Image",type=['jpg'])
+        if image_file is not None:
+            file_details = {"FileName":image_file.name, "FileType":image_file.type}
+            #st.write(type(image_file))
+            img = load_image(image_file)
+            st.image(img)
+            save_path = '/Users/ayechan/Desktop/Project_3_Swapout/jpg'
+            file_name = "{account_address}.jpg"
+            #new_file_name = user_name 
+            completeName = os.path.join(save_path, file_name)
+            with open(completeName, "wb") as f:
+                f.write(image_file.getbuffer())
+                ##renaming image file
+                # os.rename(file_name, user_name)
+            st.success("File Saved")
+if __name__ == '__main__':
+    main()
 
 # The user will create their wallet address, and account address.
 with wallet_info:
@@ -105,17 +126,24 @@ with wallet_info:
     
     if st.button("Create Digital Address") == True:
 
-        while mnemonic is None:
-            mnemonic = mnemonic.generate(strength=128)
-        mnemonic_seed_phrase = st.write(f"<link of/OR info about seed fphrases {mnemonic}")
+        if mnemonic is None:
+            mnemo = mnemonic("english")  
+            mnemonic = mnemo.generate(strength=256)
+        mnemonic_seed_phrase = st.write(
+            f"""This is your Mnemonic seed phrase.
+            Do not share with anyone.
+            When used in sequence it will  allow access to the wallet we've just created for you.
+            ---> {mnemonic}""")
         wallet = Wallet(mnemonic)
-        wallet_obj = st.write(f"<link of/OR info about seed fphrases {wallet}")
+        wallet_obj = st.write(
+            f""" With the help of the bip44 package and your Mnemonic seed phrase
+            we created this universal wallet instance.
+            {wallet}""")
         private, public = wallet.derive_account('eth')
-        st.write(private)
+        st.write(
+            f"""{private} <-----
+            This is an encoded represantiation of your private key and the only way you should store in your device""")
         account = Account.privateKeyToAccount(private)
-<<<<<<< Updated upstream
-        st.write(account.address)
-=======
         st.write(
             f"""{account.address} <----- This is the address associated with your new Ethereum account.
             We are using this address to store all your tokenized collectables and swaped for collectables on the Ethereum blockchain.""")
@@ -158,41 +186,5 @@ if next.button("Finalize Registration") == True:
 
     # Clicking Finalize Registration will take them to the Dashboard page
     webbrowser.open_new_tab("http://localhost:8502/")
->>>>>>> Stashed changes
-    
-        val = ("ether") # token RUI
-        def sol_function_cal():
-            receiver =  st.text_input('enter receiver address')
-            return receiver, #sell_side
-            if receiver == True:
-                    itm_hash = contract.functions.deedForItem(
-                    receiver
-                ).transact({'to' : receiver , 'gas': 1000000})
-                    receipt = w3.eth.waitForTransactionReceipt(itm_hash)
-                    print(itm_hash)
-        sol_function_cal()
 
 
-
-    if next.button("Finalize Registration") == True:
-        # this fuction pulls the general info of the users and saves it to a dataframe(csv)
-        def general_info():
-            general_info_list = []
-            general_info_list.append({"First Name": first_name, "Last Name": last_name, "Email": email_address, "Year": year, "Make": make, "Model": model, "Miles": miles, "Certification": certification})
-            Path="../Project3_practice/general_info_df.csv"
-            general_info_df=pd.DataFrame(general_info_list)
-            general_info_df.to_csv(Path)
-
-
-        # this fuction pulls the private info of the users and saves it to a dataframe(csv)
-        def private_info():
-            private_info_list = []
-            private_info_list.append({"Email": email_address, "Password": confirm_password, "Physical Address": mailing_address, "Account Address": receiver})
-            Path="../Project3_practice/private_info_df.csv"
-            private_info_df=pd.DataFrame(private_info_list)
-            private_info_df.to_csv(Path)
-
-        
-
-        # Clicking Finalize Registration will take them to the Dashboard page
-        webbrowser.open_new_tab("http://localhost:8502/")

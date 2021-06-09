@@ -3,7 +3,6 @@ import os, sys
 import pandas as pd 
 from PIL import Image
 
-
 @st.cache
 def load_image (image_file):
     img = Image.open(image_file)
@@ -40,7 +39,7 @@ def save_image(logged_in_user):
             st.image(img)
             
             save_path = '/Users/ayechan/Desktop/Project_3_Swapout/jpg'
-            file_name = image_file.name
+            file_name = "image.jpg"
             #new_file_name = user_name
             completeName = os.path.join(save_path, file_name)
             with open(completeName, "wb") as f:
@@ -55,3 +54,8 @@ if __name__ == '__main__':
 >>>>>>> Stashed changes
 
 
+# save_path = '/home'
+# file_name = "test.txt"
+
+# completeName = os.path.join(save_path, file_name)
+# print(completeName)
