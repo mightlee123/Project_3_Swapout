@@ -16,7 +16,12 @@ from web3 import Account
 import webbrowser
 import pandas as pd
 from path import Path
+<<<<<<< Updated upstream
 #from data_to_csv import general_info, private_info
+=======
+from PIL import Image
+from Image_Storage import save_image
+>>>>>>> Stashed changes
 
 load_dotenv()
 mnemonic = os.getenv("MNEMONIC")
@@ -108,7 +113,52 @@ with wallet_info:
         private, public = wallet.derive_account('eth')
         st.write(private)
         account = Account.privateKeyToAccount(private)
+<<<<<<< Updated upstream
         st.write(account.address)
+=======
+        st.write(
+            f"""{account.address} <----- This is the address associated with your new Ethereum account.
+            We are using this address to store all your tokenized collectables and swaped for collectables on the Ethereum blockchain.""")
+
+    def sol_function_cal():
+        proprietor =  account_address
+        contract_sender = st.text_input('Enter the contract sender')
+        tokenURI =  st.text_input('enter tokenURI')
+        #c_add  = st.write(eval("enter add"))
+        # if proprietor == True:
+        receipt = False
+        if st.button('New Deed'):
+            print("I'm HERE")
+            itm_hash = contract.functions.deedForItem(
+                proprietor,
+                tokenURI
+            ).transact({'to' : proprietor, 'from' : contract_sender, 'gas': 1000000})
+            receipt = w3.eth.waitForTransactionReceipt(itm_hash)
+        print(f'{contract_sender, receipt}')
+
+
+if next.button("Finalize Registration") == True:
+    # pulls the general info of the users and saves it to a dataframe(csv)
+    general_info_list = []
+    general_info_list.append({"First Name": first_name, "Last Name": last_name, "Email": email_address, "Year": year, "Make": make, "Model": model, "Miles": miles, "Certification": certification})
+    Path="../Project3_practice/general_info_df.csv"
+    general_info_df=pd.DataFrame(general_info_list)
+    general_info_df.to_csv(Path)
+
+
+    # pulls the private info of the users and saves it to a dataframe(csv)
+    private_info_list = []
+    private_info_list.append({"Password": confirm_password, "Physical Address": mailing_address, "Digital Address": account_address})
+    Path="../Project3_practice/private_info_df.csv"
+    private_info_df=pd.DataFrame(private_info_list)
+    private_info_df.to_csv(Path)
+
+    save_image(account_address)
+
+
+    # Clicking Finalize Registration will take them to the Dashboard page
+    webbrowser.open_new_tab("http://localhost:8502/")
+>>>>>>> Stashed changes
     
         val = ("ether") # token RUI
         def sol_function_cal():
