@@ -8,16 +8,18 @@ from PIL import Image
 # st.title("Welcome to Swapout!")
 # adding logo next to title 
 title_container = st.beta_container()
-col1, col2 = st.beta_columns([5, 25])
-image = Image.open('/Users/ayechan/Desktop/Project_3_Swapout/Logo/Logo2.png')
+# col1, col2 = st.beta_columns([12, 27])
+image = Image.open('/Users/ayechan/Desktop/Project_3_Swapout/Logo/Logo4.png')
 with title_container:
-    with col1:
-        st.image(image, width=125)
-    with col2:
-        st.markdown('<h1 style="color: purple;">Welcome to Swapout!</h1>',
-                    unsafe_allow_html=True)
+    # # with col1:
+    #     st.markdown('<h1 style="color; purple;">Welcome to </h1>',
+    #                 unsafe_allow_html=True)
+    # with col2:
+        st.image(image, width=260)
+        # st.write('!')
+    
 # adding subtitile 
-st.markdown(f'<p style="color:white;font-size:24px;border-radius:8%;">Your customized virtual market place</p>', unsafe_allow_html=True)
+st.markdown(f'<p style="color:black;font-size:24px;border-radius:8%;">Your customized virtual market place</p>', unsafe_allow_html=True)
 
 #background picture
 st.markdown(

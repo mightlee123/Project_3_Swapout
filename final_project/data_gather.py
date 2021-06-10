@@ -1,75 +1,85 @@
-
-import os
-from eth_utils.decorators import T
-import requests
+ import os 
+import json
+import streamlit as st
+from eth_account import account
+from eth_typing.evm import Address
+from tensorflow.python.framework.dtypes import as_dtype
+from tensorflow.python.ops.gen_math_ops import bucketize
+from tensorflow.python.ops.gen_string_ops import string_format
+from pathlib import Path
 from dotenv import load_dotenv
-load_dotenv()
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Any
+from web3 import Web3
+import streamlit as st
 from bip44 import Wallet
 from web3 import Account
-from web3.auto.infura.kovan import w3
-from web3 import middleware
-from web3.gas_strategies.time_based import medium_gas_price_strategy
+from mnemonic import Mnemonic
+    
+    
+    if st.button('Finalize Registration'):
+        if mnemonic is None:
+            mnemo = Mnemonic("english")  
+            mnemonic = mnemo.generate(strength=256)
 
-from eth_account import account
-import streamlit as st
-from dataclasses import dataclass
-from typing import Any, List
+        mnemonic_seed_phrase = st.write(
+            f"""This is your Mnemonic seed phrase.
+            Do not share with anyone.
+            When used in sequence it will  allow access to the wallet we've just created for you.
+            ---> {mnemonic}""")
 
-
-from crypto_wallet import get_balance
-#from crypto_wallet import send_transaction 
-#from crypto_wallet import creation_button 
-from crypto_wallet import contact_seller
-
-##########################################
-
-listing_database = {
-    "Transformer": ["Transformer", "0xaC8eB8B2ed5C4a0fC41a84Ee4950F417f67029F0", "4.3", .20, "Images/0b228b2c-3a14-472e-a3fa-0ed6c0feab95.a8be9b92a81864dcda0af0b90a033ae1.jpeg"],
-    "Toys": ["Toys", "0x2422858F9C4480c2724A309D58Ffd7Ac8bF65396", "5.0", .33, "Images/1140-collectibles-old-toys.web.jpg"],
-    "Pokemon": ["Pokemon", "0x8fD00f170FDf3772C5ebdCD90bF257316c69BA45", "4.7", .19, "Images/colect_pokemon.jpg"],
-    "Hero": ["Hero", "0x8fD00f170FDf3772C5ebdCD90bF257316c69BA45", "4.1", .16, "Images/hero-D23A7W.jpg"]
-}
-
-item_list = ["Transformer", "Toys", "Pokemon", "Hero"] 
-
-
-
-
-def create_account(): 
-    user_input = st.selectbox("Would you like to create an account",    
-        ['Choose option' ,'Yes', 'Not at this moment'])
-
-    if  user_input  == ('Yes'):
-        mnemonic = os.getenv("MNEMONIC")
         wallet = Wallet(mnemonic)
-        private, public = wallet.derive_account("eth")
+
+        wallet_obj = st.write(
+            f""" With the help of the bip44 package and your Mnemonic seed phrase
+            we created this universal wallet instance.
+            {wallet}""")
+
+        private, public = wallet.derive_account('eth')
+
+        st.write(
+            f"""{private} <-----
+            This is an encoded represantiation of your private key and the only way you should store in your device""")
+
         account = Account.privateKeyToAccount(private)
-        st.write(f'This is your new Ether adrres {account.address} with us')  
-
-    elif user_input == ('Not at this moment'):
-        st.write("Dont delay too long.")
-           
-create_account()
+        
+        st.write(
+            f"""{account.address} <----- This is the address associated with your new Ethereum account.
+            We are using this address to store all your tokenized collectables and swaped for collectables on the Ethereum blockchain.""")
 
 
-def select_item(): 
-     """Display the database of Fintech Finders candidate information."""
-     db_list = list(listing_database.values())
 
-     for number in range(len(item_list)):
-        st.image(db_list[number][4], width=200)
-        st.write("Name: ", db_list[number][0])
-        st.write("Ethereum Account Address: ", db_list[number][1])
-        st.write("Swapout item Rating: ", db_list[number][2])
-        st.write("Price per Ether: ", db_list[number][3], "eth")
-        st.text(" \n")
+    # trasaction of deal not sing up 
+      # contract address for now   
+    def sol_function_cal():
+        accounts = w3.eth.accounts
+        account = accounts[2]
+        proprietor = st.text_input('Enter your digital address')
+        collectable_details = st.text_input("Deed Details", value="Deed To Collectable")
+        token_id = st.number_input("Enter a Certificate Token ID to display", value=0, step=1) 
+        
+        if st.button('New Deed'):
+            itm_hash = contract.functions.deedForItem(proprietor, collectable_details).transact({'from' : account, 'to' : proprietor,  'gas': 2812493})
+            print(itm_hash)
+            print("hello")
+            
+            token_owner = contract.functions.ownerOf(token_id).transact({'from' : account, 'to' : proprietor})
+            st.write(f"The Swap Deed Owner {token_owner}")
+        
+            token_uri = contract.functions.tokenURI(token_id).transact({'from' :account, "to" : proprietor})
+            st.write(f"The Deed's tokenURI metadata is {token_uri}")
+            print("champ shit")
 
-select_item()
+            balanceOf = contract.functions.balanceOf(proprietor).transact({'from' :account, "to" : proprietor})
+
+            st.write(f"Balance {balanceOf}")
+            print(balanceOf)
+            print("champ shit")
 
 
-def contact_seller():
+sol_function_cal()
 
-    #sender = st.text_input('Input your account address')
 
     #receiver = st.text_input('Input item information')
 
