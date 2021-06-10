@@ -71,7 +71,8 @@ def involvedEscrow():
     seller_ = st.selectbox("Select Seller Account", options=accounts)
     st.write(f"{seller_} This is the seller")
 
-    amm = 30000000000000000000
+    amm = st.number_input("Enter a Certificate Token ID to display", value=0, step=1) 
+
     price =  st.write(f"This is the agreed ammount set per swap deal {amm}")
     if st.button('Construct Deed of Sale'):
         construc_hash = involvedEscrow.constructor(buyer_, seller_, amm).transact({'gas': 2812493})
