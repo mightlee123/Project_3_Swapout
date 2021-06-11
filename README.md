@@ -51,18 +51,187 @@ https://user-images.githubusercontent.com/73854785/121729601-854f9f80-caa3-11eb-
 
 -----
 
-## Contributors 
 ### Foundational Design Team:
 
 *  Mike Husary 
 *  Might Lee
 *  Aye Oo
 *  Javier Barrios
+ 
+------
 
-## 
 ### Swapping Ahead 
 * Continue to put user experience first.
 * Create a verified network for our memebers to communicate.
 * Shopping assicatnce with Oracle data.
 * Lightning auctions using our DEED's and smart contracts.
 
+-----
+
+### Sample Code
+
+Custom background
+
+
+```
+st.markdown(
+    """
+    <style>
+    .reportview-container {
+        background: url("https://www.blackenterprise.com/wp-content/blogs.dir/1/files/2020/04/iStock-1125604286.jpg")
+    }
+.sidebar-content {
+        background: url("https://www.pngkit.com/png/detail/336-3367267_reset-icon-transparent-refresh-icon-blue.png")
+    }
+    <\style>
+    """,
+    unsafe_allow_html=True
+)
+```
+----
+
+Home page 
+
+```
+import streamlit as st
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Any
+import webbrowser
+
+
+
+st.title("Welcome to Swapout!")
+
+st.markdown("## Your customized virtual market place")
+
+#background picture
+st.markdown(
+    """
+    <style>
+    .reportview-container {
+        background: url("https://www.blackenterprise.com/wp-content/blogs.dir/1/files/2020/04/iStock-1125604286.jpg")
+    }
+.sidebar-content {
+        background: url("https://www.pngkit.com/png/detail/336-3367267_reset-icon-transparent-refresh-icon-blue.png")
+    }
+    <\style>
+    """,
+    unsafe_allow_html=True
+)
+
+left_column, right_column = st.beta_columns(2)
+
+# left_column.button('Sign Up')
+
+if left_column.button('Sign Up') == True:
+    webbrowser.open_new_tab('http://localhost:8087/')
+
+
+if right_column.button('Log In') == True:
+    webbrowser.open_new_tab('http://localhost:8085/')
+```
+
+----
+
+Allowing for image uploads
+
+```
+@st.cache
+def load_image (image_file):
+    img = Image.open(image_file)
+    return img
+def save_image():
+    # st.title ("File Uploads & Saved File to Directory App")
+    # menu = ["Home"]
+    # choice = st.sidebar.selectbox("Menu", menu)
+    # if choice == "Home":
+        # st.subheader("Upload Image")
+        # user_name =
+        image_file = st.file_uploader("Upload An Image",type=['jpg'])
+        if image_file is not None:
+            file_details = {"FileName":image_file.name, "FileType":image_file.type}
+            #st.write(type(image_file))
+            img = load_image(image_file)
+            st.image(img)
+            save_path = '../Project_3_Swapout/jpg'
+            file_name = "{account_address}.jpg"
+            #new_file_name = user_name 
+            #completeName = os.path.join(save_path, file_name)
+            #with open(completeName, "wb") as f:
+                #f.write(image_file.getbuffer())
+                ##renaming image file
+                # os.rename(file_name, user_name)
+            st.success("File Saved")
+```
+------
+
+Directing data flow
+
+```
+if next.button("Finalize Registration") == True:
+    import pathlib as Path
+    # pulls the general info of the users and saves it to a dataframe(csv)
+    general_info_list = []
+    general_info_list.append({"First Name": first_name, "Last Name": last_name, "Email": email_address, "Year": year, "Make": make, "Model": model, "Miles": miles, "Certification": certification})
+    general_path = Path("../Project_3_Swapout/csv_data/general_info.csv")
+    general_info_df=pd.read_csv(general_path)
+    general_info_df.append(general_info_list)
+
+
+    # pulls the private info of the users and saves it to a dataframe(csv)
+    private_info_list = []
+    private_info_list.append({"Digital Address": account_address, "Password": confirm_password, "Physical Address": mailing_address, })
+    private_path = Path("../Project_3_Swapout/csv_data/private_info.csv")
+    private_info_df=pd.read_csv(private_path)
+    private_info_df.append(private_info_list)
+```
+----
+
+Involed escrow 
+
+```
+involvedEscrow = web3.eth.contract(abi = abi, bytecode = bytecode)
+
+    buyer_ = st.selectbox("Select Buyer Account", options=accounts)
+    st.write(f"{buyer_} This is buyer")
+
+    seller_ = st.selectbox("Select Seller Account", options=accounts)
+    st.write(f"{seller_} This is the seller")
+
+    amm = st.number_input("Enter a Certificate Token ID to display", value=0, step=1) 
+
+    price =  st.write(f"This is the agreed ammount set per swap deal {amm}")
+    if st.button('Construct Deed of Sale'):
+        construc_hash = involvedEscrow.constructor(buyer_, seller_, amm).transact({'gas': 2812493})
+        receipt = web3.eth.waitForTransactionReceipt(construc_hash)
+       
+        print(construc_hash, buyer_,receipt)
+        st.write(f'This is your transactionHash {construc_hash},Here is your TransactionReceipt {receipt}')
+
+    if st.button('Buyer Deposit funds'):
+        view = buyer_
+        if view == buyer_:
+            deposit_hash = involvedEscrow.functions.deposit().transact({'from' : buyer_, 'to' : contract_location, 'value': amm})
+            deposit_receipt = web3.eth.waitForTransactionReceipt(deposit_hash)
+            
+            print(deposit_hash, deposit_receipt)
+            st.write(f'This is your deposit_hash {deposit_hash},Here is your TransactionReceipt {deposit_receipt}')
+
+    if st.button('Transfer SWAP DeeD'):
+        safeTransfer_hash = involvedEscrow.functions.safeTransferFrom(contract_location, buyer_, 14).transact({'from' : buyer_, 'to' : contract_location})
+        safeTransfer_receipt = web3.eth.waitForTransactionReceipt(safeTransfer_hash)
+        print(safeTransfer_hash, safeTransfer_receipt)
+        st.write(f'This is your deposit_hash {safeTransfer_hash},Here is your TransactionReceipt {safeTransfer_receipt}')
+
+
+    if st.button('Buyer Confirm Delivery and Release Deposited Amount'):
+        confirmDelivery_hash = involvedEscrow.functions.confirmDelivery().transact({'from' : buyer_, 'to' : contract_location})
+        confirmation_receipt = web3.eth.waitForTransactionReceipt(confirmDelivery_hash)
+
+        print(confirmDelivery_hash, confirmation_receipt)
+        st.write(f'This is your confirmDelivery_hash {confirmDelivery_hash},Here is your confirmation_receipt {confirmation_receipt}')
+        ```
+
+
+           
