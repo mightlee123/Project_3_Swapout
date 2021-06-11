@@ -231,7 +231,25 @@ involvedEscrow = web3.eth.contract(abi = abi, bytecode = bytecode)
 
         print(confirmDelivery_hash, confirmation_receipt)
         st.write(f'This is your confirmDelivery_hash {confirmDelivery_hash},Here is your confirmation_receipt {confirmation_receipt}')
-        ```
+ ```
+        ------
+Technologies used 
+* This Project involed countless modules. The most utilized will be listed below. 
+        
+* Streamlit
+        
+![image](https://user-images.githubusercontent.com/73854785/121751112-6b718500-cac2-11eb-8f60-841118f84017.png)
+   
+   -----
+  Solidity via Remix IDE 
+
+ ![image](https://user-images.githubusercontent.com/73854785/121750988-38c78c80-cac2-11eb-9b66-8f2c6401b26f.png)
+        
+   -----
+  Web3.py
+  
+  ![image](https://user-images.githubusercontent.com/73854785/121751695-81cc1080-cac3-11eb-8cfb-a228b9ca16bf.png)
 
 
-           
+   -----
+
