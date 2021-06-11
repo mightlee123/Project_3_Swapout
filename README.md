@@ -51,6 +51,18 @@ https://user-images.githubusercontent.com/73854785/121729601-854f9f80-caa3-11eb-
 
 -----
 
+## Contributors 
+### Foundational Design Team:
 
+*  Mike Husary 
+*  Might Lee
+*  Aye Oo
+*  Javier Barrios
 
+## 
+### Swapping Ahead 
+* Continue to put user experience first.
+* Create a verified network for our memebers to communicate.
+* Shopping assicatnce with Oracle data.
+* Lightning auctions using our DEED's and smart contracts.
 
