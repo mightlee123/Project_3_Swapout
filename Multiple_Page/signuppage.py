@@ -1,12 +1,8 @@
-import os, sys
-import json
+import os
 from eth_account import account
 from eth_typing.evm import Address
 from web3 import Web3
-from pathlib import Path
 from dotenv import load_dotenv
-from dataclasses import dataclass
-from datetime import datetime
 from typing import Any
 #Import the Web3 library
 from web3 import Web3
@@ -15,14 +11,9 @@ from bip44 import Wallet
 from web3 import Account
 import webbrowser
 import pandas as pd
-from path import Path
 from PIL import Image
-<<<<<<< Updated upstream
-from Image_Storage import save_image
-=======
-from pathlib import *
+import pathlib as Path
 
->>>>>>> Stashed changes
 
 load_dotenv()
 mnemonic = os.getenv("MNEMONIC")
@@ -100,7 +91,7 @@ with vehicle_info:
 def load_image (image_file):
     img = Image.open(image_file)
     return img
-def main():
+def save_image():
     # st.title ("File Uploads & Saved File to Directory App")
     # menu = ["Home"]
     # choice = st.sidebar.selectbox("Menu", menu)
@@ -113,17 +104,15 @@ def main():
             #st.write(type(image_file))
             img = load_image(image_file)
             st.image(img)
-            save_path = '/Users/ayechan/Desktop/Project_3_Swapout/jpg'
+            save_path = '../Project_3_Swapout/jpg'
             file_name = "{account_address}.jpg"
             #new_file_name = user_name 
-            completeName = os.path.join(save_path, file_name)
-            with open(completeName, "wb") as f:
-                f.write(image_file.getbuffer())
+            #completeName = os.path.join(save_path, file_name)
+            #with open(completeName, "wb") as f:
+                #f.write(image_file.getbuffer())
                 ##renaming image file
                 # os.rename(file_name, user_name)
             st.success("File Saved")
-if __name__ == '__main__':
-    main()
 
 # The user will create their wallet address, and account address.
 with wallet_info:
@@ -153,40 +142,41 @@ with wallet_info:
             f"""{account.address} <----- This is the address associated with your new Ethereum account.
             We are using this address to store all your tokenized collectables and swaped for collectables on the Ethereum blockchain.""")
 
-    def sol_function_cal():
-        proprietor =  account_address
-        contract_sender = st.text_input('Enter the contract sender')
-        tokenURI =  st.text_input('enter tokenURI')
-        #c_add  = st.write(eval("enter add"))
+    #def sol_function_cal():
+        #proprietor =  account_address
+        #contract_sender = st.text_input('Enter the contract sender')
+        #tokenURI =  st.text_input('enter tokenURI')
+        ##c_add  = st.write(eval("enter add"))
         # if proprietor == True:
-        receipt = False
-        if st.button('New Deed'):
-            print("I'm HERE")
-            itm_hash = contract.functions.deedForItem(
-                proprietor,
-                tokenURI
-            ).transact({'to' : proprietor, 'from' : contract_sender, 'gas': 1000000})
-            receipt = w3.eth.waitForTransactionReceipt(itm_hash)
-        print(f'{contract_sender, receipt}')
+        #receipt = False
+        #if st.button('New Deed'):
+        #    print("I'm HERE")
+         #   itm_hash = contract.functions.deedForItem(
+         #       proprietor,
+          #      tokenURI
+           # ).transact({'to' : proprietor, 'from' : contract_sender, 'gas': 1000000})
+            #receipt = Web3.eth.waitForTransactionReceipt(itm_hash)
+        #print(f'{contract_sender, receipt}')
 
 
 if next.button("Finalize Registration") == True:
+    import pathlib as Path
     # pulls the general info of the users and saves it to a dataframe(csv)
     general_info_list = []
     general_info_list.append({"First Name": first_name, "Last Name": last_name, "Email": email_address, "Year": year, "Make": make, "Model": model, "Miles": miles, "Certification": certification})
-    Path="../Project3_practice/general_info_df.csv"
-    general_info_df=pd.DataFrame(general_info_list)
-    general_info_df.to_csv(Path)
+    general_path = Path("../Project_3_Swapout/csv_data/general_info.csv")
+    general_info_df=pd.read_csv(general_path)
+    general_info_df.append(general_info_list)
 
 
     # pulls the private info of the users and saves it to a dataframe(csv)
     private_info_list = []
-    private_info_list.append({"Password": confirm_password, "Physical Address": mailing_address, "Digital Address": account_address})
-    Path="../Project3_practice/private_info_df.csv"
-    private_info_df=pd.DataFrame(private_info_list)
-    private_info_df.to_csv(Path)
-
-    save_image(account_address)
+    private_info_list.append({"Digital Address": account_address, "Password": confirm_password, "Physical Address": mailing_address, })
+    private_path = Path("../Project_3_Swapout/csv_data/private_info.csv")
+    private_info_df=pd.read_csv(private_path)
+    private_info_df.append(private_info_list)
+    
+    #save_image(account_address)
 
 
 
