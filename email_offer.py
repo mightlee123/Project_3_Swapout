@@ -14,8 +14,8 @@ arrival_date= dt + shipping_days
 swapout_email_address = os.environ.get("email_username")
 swapout_email_password = os.environ.get("email_password")
 
-offeror={"name":"Customer_A" , "item":"Honda"}
-receiver={"name":"Might Lee", "email": "mightlee123@gmail.com" , "item":"Toyota"}
+offeror={"name":"Aye Oo" , "item":" 2020 Porche Macan S"}
+receiver={"name":"Mike Husary", "email": "swapoutgoods@gmail.com" , "item":"1994 Ferrari 348"}
 def email_notification(subject, msg, user_email):
     server = smtplib.SMTP("smtp.gmail.com:587")
     server.ehlo()
@@ -26,7 +26,7 @@ def email_notification(subject, msg, user_email):
     server.quit()
 
 def make_offer(offeror, receiver):
-    user_email = receiver["mail"]
+    user_email = receiver["email"]
     subject = "You Have an Offer!"
     msg = f"{offeror['name']} is wanting to trade your {receiver['item']} with a {offeror['item']}.\
         Please accept the offer within 24 hours."
@@ -56,3 +56,4 @@ def trade_confirmation_2(offeror, receiver):
          to the following address: {offeror['address']}."
     email_notification(subject, msg, user_email)  
 
+make_offer(offeror, receiver)

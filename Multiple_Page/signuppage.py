@@ -17,7 +17,12 @@ import webbrowser
 import pandas as pd
 from path import Path
 from PIL import Image
+<<<<<<< Updated upstream
 from Image_Storage import save_image
+=======
+from pathlib import *
+
+>>>>>>> Stashed changes
 
 load_dotenv()
 mnemonic = os.getenv("MNEMONIC")
