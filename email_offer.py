@@ -1,6 +1,5 @@
 import smtplib
 from email.mime.text import MIMEText
-from save_jpg_base64 import image
 import os
 from datetime import datetime, timedelta
 #date 
@@ -14,7 +13,8 @@ arrival_date= dt + shipping_days
 swapout_email_address = os.environ.get("email_username")
 swapout_email_password = os.environ.get("email_password")
 
-offeror={"name":"Aye Oo" , "item":" 2020 Porche Macan S"}
+
+offeror={"name":"Might Lee","email": "mightlee123@gmail.com", "item":" 2020 Porche Macan S"}
 receiver={"name":"Mike Husary", "email": "swapoutgoods@gmail.com" , "item":"1994 Ferrari 348"}
 def email_notification(subject, msg, user_email):
     server = smtplib.SMTP("smtp.gmail.com:587")
@@ -31,29 +31,30 @@ def make_offer(offeror, receiver):
     msg = f"{offeror['name']} is wanting to trade your {receiver['item']} with a {offeror['item']}.\
         Please accept the offer within 24 hours."
     email_notification(subject, msg, user_email)
+
+make_offer(offeror, receiver)
 #picture
 #msg.attach(MIMEText("data:image.jpg;base64,{image}><p><body><html>", "html","utf-8"))
 
-def reject_offer(offeror, receiver):
-    user_email = offeror["email"]
-    subject = "Offer Denied"
-    msg = f"Your trade offer for {receiver['name']}'s {receiver['Item']}has been turned down."
-    email_notification(subject, msg, user_email)
+#def reject_offer(offeror, receiver):
+#    user_email = offeror["email"]
+#    subject = "Offer Denied"
+#    msg = f"Your trade offer for {receiver['name']}'s {receiver['Item']}has been turned down."
+#    email_notification(subject, msg, user_email)
 
 #trade confirmation email to offeror
-def trade_confirmation_1(offeror,receiver):
-    user_email = offeror["email"]
-    subject = "Confirm Trade"
-    msg = f"Your offer has been accepted! Please deliver your vehicle before {ship_out_date}\
-         to the following address: {receiver['address']}."
-    email_notification(subject, msg, user_email)
+#def trade_confirmation_1(offeror,receiver):
+#    user_email = offeror["email"]
+#    subject = "Confirm Trade"
+#    msg = f"Your offer has been accepted! Please deliver your vehicle before {ship_out_date}\
+#         to the following address: {receiver['address']}."
+#    email_notification(subject, msg, user_email)
 
 #trade confirmation email to receiver
-def trade_confirmation_2(offeror, receiver):
-    user_email = receiver["email"]
-    subject = "confirm Trade"
-    msg = f"You got yourself a deal! Please deliver your vehicle before {ship_out_date}\
-         to the following address: {offeror['address']}."
-    email_notification(subject, msg, user_email)  
+#def trade_confirmation_2(offeror, receiver):
+#    user_email = receiver["email"]
+#    subject = "confirm Trade"
+#    msg = f"You got yourself a deal! Please deliver your vehicle before {ship_out_date}\
+#         to the following address: {offeror['address']}."
+#    email_notification(subject, msg, user_email)  
 
-make_offer(offeror, receiver)
